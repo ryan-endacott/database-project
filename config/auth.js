@@ -12,14 +12,14 @@ module.exports = {
     if (!token) return unauthorizedError(null, res);
     User.findOne({
       token: token
-    }), function(err, user) {
+    }, function(err, user) {
       if (err) return next(err);
       // If no user found
       if (!user) return unauthorizedError(null, res);
       // User was found
       req.user = user;
       next();
-    }
+    });
   }
 
 };
