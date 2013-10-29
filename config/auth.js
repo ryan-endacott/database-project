@@ -20,6 +20,12 @@ module.exports = {
       req.user = user;
       next();
     });
+  },
+
+  requireAppToken: function requireAppToken(req, res, next) {
+    var token = req.body.apiToken || req.query.apiToken;
+    if (!token || token != config.appToken) return unauthorizedError(null, res);
+    next();
   }
 
 };
