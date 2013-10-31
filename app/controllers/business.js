@@ -6,7 +6,7 @@ var db = require('../db'),
 // Action to get all businesses of a certain type
 exports.all = function(req, res) {
   Business.find({ type: req.query.type }, function(err, businesses) {
-    if (err) return badRequest(err);
+    if (err) return badRequest(err, res);
 
     res.json(businesses);
   });
@@ -14,17 +14,20 @@ exports.all = function(req, res) {
 
 // Action to get all businesses of a certain type near given location
 exports.near = function(req, res) {
-  var geojsonLoc = { type: 'Point', coordinates: [req.query.long, req.query.lat] };
+  var geojsonLoc = {
+    type: 'Point',
+    coordinates: [req.query.long, req.query.lat]
+  };
 
   // Near example: https://github.com/LearnBoost/mongoose/blob/master/test/model.querying.test.js#L2168
   Business.find({
     type: req.query.type,
     loc: {
-      $near: { geojsonLoc },
+      $near: { $geometry: geojsonLoc },
       $maxDistance: req.query.maxDistance
     }
   }, function(err, businesses) {
-    if (err) return badRequest(err);
+    if (err) return badRequest(err, res);
 
     res.json(businesses);
   });
