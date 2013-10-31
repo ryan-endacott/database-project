@@ -12,5 +12,23 @@ exports.all = function(req, res) {
   });
 };
 
+// Action to get all businesses of a certain type near given location
+exports.near = function(req, res) {
+  var geojsonLoc = { type: 'Point', coordinates: [req.query.long, req.query.lat] };
+
+  // Near example: https://github.com/LearnBoost/mongoose/blob/master/test/model.querying.test.js#L2168
+  Business.find({
+    type: req.query.type,
+    loc: {
+      $near: { geojsonLoc },
+      $maxDistance: req.query.maxDistance
+    }
+  }, function(err, businesses) {
+    if (err) return badRequest(err);
+
+    res.json(businesses);
+  });
+};
+
 
 
