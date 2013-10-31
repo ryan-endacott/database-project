@@ -5,7 +5,9 @@ var db = require('../db'),
 
 // Action to get all businesses of a certain type
 exports.all = function(req, res) {
-  Business.find({ type: req.query.type }, function(err, businesses) {
+
+  var type = req.query.type || /.*/; // All types if none specified
+  Business.find({ type: type }, function(err, businesses) {
     if (err) return badRequest(err, res);
 
     res.json(businesses);
@@ -19,9 +21,10 @@ exports.near = function(req, res) {
     coordinates: [req.query.long, req.query.lat]
   };
 
+  var type = req.query.type || /.*/; // All types if none specified
   // Near example: https://github.com/LearnBoost/mongoose/blob/master/test/model.querying.test.js#L2168
   Business.find({
-    type: req.query.type,
+    type: type,
     loc: {
       $near: { $geometry: geojsonLoc },
       $maxDistance: req.query.maxDistance // In meters
