@@ -24,7 +24,7 @@ exports.near = function(req, res) {
     type: req.query.type,
     loc: {
       $near: { $geometry: geojsonLoc },
-      $maxDistance: req.query.maxDistance
+      $maxDistance: req.query.maxDistance // In meters
     }
   }, function(err, businesses) {
     if (err) return badRequest(err, res);
