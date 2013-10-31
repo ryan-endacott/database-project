@@ -34,7 +34,7 @@ var businessSchema = new Schema({
 
   // Set up GeoJSON with Mongoose.  Ref: http://stackoverflow.com/questions/15556624/how-does-one-reprsent-mongodb-geojson-fields-in-a-mongoose-schema
   loc: {
-    type: { type: String }
+    type: { type: String },
     coordinates: []
   },
 
