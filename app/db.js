@@ -34,13 +34,16 @@ var businessSchema = new Schema({
 
   // Set up GeoJSON with Mongoose.  Ref: http://stackoverflow.com/questions/15556624/how-does-one-reprsent-mongodb-geojson-fields-in-a-mongoose-schema
   loc: {
-    type: { type: String },
-    coordinates: []
+    type: {type: String},
+    coordinates: [Number]
   },
 
   phoneNumber: String,
   description: String
 });
+
+// Add GeoJSON index
+businessSchema.index({loc: '2dsphere'});
 
 // Generate user API token
 userSchema.pre('save', function(next) {
