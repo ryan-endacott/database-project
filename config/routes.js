@@ -3,11 +3,13 @@
 // Controllers
 var index = require('../app/controllers/index'),
     user = require('../app/controllers/user'),
+    business = require('../app/controllers/business'),
     errors = require('../app/errors'),
     auth = require('./auth'),
-    requireUserToken = auth.requireUserToken;
+    requireUser = auth.requireUserToken;
 
 module.exports = function(app) {
   app.get('/', index.index);
+  app.get('/business/all', business.all);
   app.post('/user/register', user.register);
 };

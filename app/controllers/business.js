@@ -4,7 +4,7 @@ var db = require('../db'),
   badRequest = errors.badRequestError;
 
 // Action to get all businesses of a certain type
-exports.allBusinesses = function(req, res) {
+exports.all = function(req, res) {
   Business.find({ type: req.query.type }, function(err, businesses) {
     if (err) return badRequest(err);
 
