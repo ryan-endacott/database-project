@@ -28,6 +28,19 @@ var userSchema = new Schema({
   name: String
 });
 
+var businessSchema = new Schema({
+  name: String,
+  type: String,
+
+  // Set up GeoJSON with Mongoose.  Ref: http://stackoverflow.com/questions/15556624/how-does-one-reprsent-mongodb-geojson-fields-in-a-mongoose-schema
+  loc: {
+    type: { type: String }
+    coordinates: []
+  },
+
+  phoneNumber: String,
+  description: String
+});
 
 // Generate user API token
 userSchema.pre('save', function(next) {
@@ -85,6 +98,7 @@ userSchema.options.toObject.transform = function (doc, ret, options) {
 
 
 module.exports = {
-  User: mongoose.model('User', userSchema)
-}
+  User: mongoose.model('User', userSchema),
+  Business: mongoose.model('Business', businessSchema)
+};
 
