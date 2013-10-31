@@ -13,4 +13,5 @@ module.exports = function(app) {
   app.get('/business/all', requireUser, business.all);
   app.get('/business/near', requireUser, business.near);
   app.post('/user/register', user.register);
+  app.post('/business/create', business.create);
 };

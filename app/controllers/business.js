@@ -36,5 +36,24 @@ exports.near = function(req, res) {
   });
 };
 
+// Action to create a new business
+exports.create = function(req, res) {
+
+  var q = req.body.business || {};
+  Business.create({
+    name: q.name,
+    type: q.type,
+    loc: {
+      type: 'Point',
+      coordinates: [q.long, q.lat]
+    },
+    phoneNumber: q.phoneNumber,
+    description: q.description
+  }, function(err, business) {
+    if (err) return badRequest(err, res);
+
+    res.json(business);
+  });
+};
 
 
