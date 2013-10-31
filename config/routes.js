@@ -10,6 +10,6 @@ var index = require('../app/controllers/index'),
 
 module.exports = function(app) {
   app.get('/', index.index);
-  app.get('/business/all', business.all);
+  app.get('/business/all', requireUser, business.all);
   app.post('/user/register', user.register);
 };
