@@ -39,7 +39,12 @@ var businessSchema = new Schema({
   },
 
   phoneNumber: String,
-  description: String
+  description: String,
+  address: String,
+  website: String,
+  hours: String,
+  deals: String,
+  reviews: [String]
 });
 
 // Add GeoJSON index
