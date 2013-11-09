@@ -48,7 +48,12 @@ exports.create = function(req, res) {
       coordinates: [q.long, q.lat]
     },
     phoneNumber: q.phoneNumber,
-    description: q.description
+    description: q.description,
+    reviews: q.reviews,
+    deals: q.deals,
+    website: q.website,
+    hours: q.hours,
+    address: q.address
   }, function(err, business) {
     if (err) return badRequest(err, res);
 
