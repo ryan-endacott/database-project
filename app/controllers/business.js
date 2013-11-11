@@ -1,7 +1,8 @@
 var db = require('../db'),
   Business = db.Business,
   errors = require('../errors'),
-  badRequest = errors.badRequestError;
+  badRequest = errors.badRequestError,
+  gm = require('googlemaps');
 
 // Action to get all businesses of a certain type
 exports.all = function(req, res) {
@@ -40,25 +41,41 @@ exports.near = function(req, res) {
 exports.create = function(req, res) {
 
   var q = req.body.business || req.body || {};
-  Business.create({
-    name: q.name,
-    type: q.type,
-    loc: {
-      type: 'Point',
-      coordinates: [q.long, q.lat]
-    },
-    phoneNumber: q.phoneNumber,
-    description: q.description,
-    reviews: q.reviews,
-    deals: q.deals,
-    website: q.website,
-    hours: q.hours,
-    address: q.address
-  }, function(err, business) {
-    if (err) return badRequest(err, res);
 
-    res.json(business);
+  // Get coordinates of address from googlemaps
+  gm.geocode(q.address, function(err, data) {
+
+    var lon, lat;
+    try {
+      var loc = data.results[0].geometry.location;
+      lon = loc.lng || 0;
+      lat = loc.lat || 0;
+    }
+    catch(err) { // can fail if we got an error or invalid data
+    }
+
+    Business.create({
+      name: q.name,
+      type: q.type,
+      loc: {
+        type: 'Point',
+        coordinates: [lon, lat]
+      },
+      phoneNumber: q.phoneNumber,
+      description: q.description,
+      reviews: q.reviews,
+      deals: q.deals,
+      website: q.website,
+      hours: q.hours,
+      address: q.address
+    }, function(err, business) {
+      if (err) return badRequest(err, res);
+
+      res.json(business);
+    });
+
   });
+
 };
 
 // Action to get the register page for a business
