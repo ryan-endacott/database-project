@@ -17,8 +17,7 @@ block content
     br
     button#showr.start-button Click here to get started!
     #login-input(style='display: none;')
-      form.login-form(name='login', action='')
-        | "" method="post"
+      form.login-form(name='login', action='/', method='/post')
         .header
           h1 I'm Bored
           span.header Please login or register to get started!
@@ -27,14 +26,12 @@ block content
           input.login-box(type='text', name='user', placeholder='Username', title='Please provide your username')
         .login-credentials
           input.login-box(type='password', name='pwd', placeholder='Password', title='Please provide your password')
-        .forgot-login
-          a(href='', onclick='emailReset()') Forgot your username or password?
         br
         br
         .login-footer
           button#hidr.login-button(style='float: right;') Close
           input.login-button(type='submit', name='submit', value='Login')
-          a.login-register(href='info.php') Register
+          a.login-register(href='/business/register') Register
   script
     $(function() {
     $( document ).tooltip({
