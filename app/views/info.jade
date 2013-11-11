@@ -2,6 +2,14 @@ extends layout
 
 block content
   script
+
+    $(function() {
+      $('input[name=submit]').click(function(e) {
+        e.preventDefault();
+        registerUser();
+        return false;
+      });
+    });
     function registerUser()
     {
     //this entire function is error checking, if no errors are found it submits the register form in the else statement. It will need a primary key from the database
@@ -43,15 +51,43 @@ block content
     else{
     //for the initial insert I don't think you will need a primary key. But once we get an edit button implemented once they are registered, it will need to be passed for the select statement
     document.forms['register'].elements['pk'].value = 1;
-    document.forms['register'].submit();
+
+      // do post request to upload the business
+      $.ajax({
+        type: 'POST',
+        url: '/business/create',
+        data: {
+          name: $('input[name=business-name]').val(),
+          type: $('input[name=venue]').val(),
+          long: 1,
+          lat: 1,
+          phoneNumber: $('input[name=phone-number]').val(),
+          description: $('input[name=description]').val(),
+          deals: $('input[name=specials]').val(),
+          website: $('input[name=website]').val(),
+          hours: getDays() + addHours(),
+          address: $('input[name=address]').val()
+        },
+        success: function(data) {
+          console.log(data);
+          alert(data);
+        }
+      });
     }
+
+    // never manually submit
+    return false;
+    }
+    function getDays()
+    {
+      return "M, T, W";
     }
     //alert box that states the hours, probably not needed. Was just cfhecking to make sure they were proper values
     function addHours()
     {
     var open=document.forms["register"]["open"].value;
     var close=document.forms["register"]["close"].value;
-    alert(open +" to "+ close);
+    return (open +" to "+ close);
     }
 
 
@@ -232,6 +268,11 @@ block content
             option(value='5:30 am') 5:30 am
           button.addHours(type='button', name='add-hours', value='Add Hours', onclick='addHours()')
             span Add Hours
+        .credentials
+          | Business Description:
+          br
+          br
+          textarea.specials.non-required(name='description')
         .credentials
           | Deals and specials:
           br

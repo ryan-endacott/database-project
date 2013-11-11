@@ -16,5 +16,5 @@ module.exports = function(app) {
   app.get('/business/register', business.register);
   app.post('/user/register', requireAppToken, user.register);
   app.get('/user/login', requireAppToken, user.login);
-  app.post('/business/create', requireAppToken, business.create);
+  app.post('/business/create', business.create);
 };
