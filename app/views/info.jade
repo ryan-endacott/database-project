@@ -59,11 +59,9 @@ block content
         data: {
           name: $('input[name=business-name]').val(),
           type: $('input[name=venue]').val(),
-          long: 1,
-          lat: 1,
           phoneNumber: $('input[name=phone-number]').val(),
-          description: $('input[name=description]').val(),
-          deals: $('input[name=specials]').val(),
+          description: $('textarea[name=description]').val(),
+          deals: $('textarea[name=specials]').val(),
           website: $('input[name=website]').val(),
           hours: getDays() + addHours(),
           address: $('input[name=address]').val()
@@ -84,7 +82,12 @@ block content
     }
     function getDays()
     {
-      return "M, T, W";
+      var days = [];
+      $('input:checkbox:checked').each(function(i, day){
+        days.push($(day).val());
+      });
+
+      return days.join(',') + ' ';
     }
     //alert box that states the hours, probably not needed. Was just cfhecking to make sure they were proper values
     function addHours()
@@ -117,16 +120,16 @@ block content
           input.box1.required(type='password', name='password', placeholder='*Password')
           br
         .credentials
-          | Email-address:
+          | Email:
           span.space
-          input.box1.required(type='text', name='email', placeholder='*Email-adress')
+          input.box1.required(type='text', name='email', placeholder='*Email')
           span.tab
             | Type of Venue:
             select.box1(name='venue')
               option(value='')
-              option(value='entertainment') Entertainment
-              option(value='restaurant') Restaurant
-              option(value='bar') Bar
+              option(value='bored') Entertainment
+              option(value='hungry') Restaurant
+              option(value='thirsty') Bar
         .credentials
           span.header Business information
           hr
@@ -270,8 +273,6 @@ block content
             option(value='4:30 am') 4:30 am
             option(value='5:00 am') 5:00 am
             option(value='5:30 am') 5:30 am
-          button.addHours(type='button', name='add-hours', value='Add Hours', onclick='addHours()')
-            span Add Hours
         .credentials
           | Business Description:
           br
