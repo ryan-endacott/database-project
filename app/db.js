@@ -25,7 +25,8 @@ var userSchema = new Schema({
     required: true
   },
   token: String,
-  name: String
+  name: String,
+  favorites: [{type: mongoose.Schema.ObjectId, ref: 'Business'}]
 });
 
 var businessSchema = new Schema({
