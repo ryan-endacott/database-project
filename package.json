@@ -10,7 +10,8 @@
     "node-uuid": "~1.4.0",
     "bcrypt": "~0.7.6",
     "should": "~1.2.2",
-    "supertest": "~0.7.1"
+    "supertest": "~0.7.1",
+    "googlemaps": "~0.1.9"
   },
   "devDependencies": {},
   "scripts": {
