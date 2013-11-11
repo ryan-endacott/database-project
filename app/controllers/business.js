@@ -83,4 +83,11 @@ exports.register = function(req, res) {
   res.render('info', {title: 'Register a New Business'});
 }
 
+exports.find = function(req, res) {
+  Business.findById(req.query.businessId, function(err, business) {
+    if (err) return badRequest(err, res);
+    res.json(business);
+  });
+}
+
 
