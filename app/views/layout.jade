@@ -2,7 +2,22 @@
 html(lang='en')
   head
     meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
     title= title
+    // Bootstrap
+    link(href='/css/bootstrap.min.css', rel='stylesheet', media='screen')
+    link(href='http://fonts.googleapis.com/css?family=Roboto:300', rel='stylesheet', type='text/css')
+    link(rel='stylesheet', type='text/css', href='/css/mystyle.css')
+    script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js')
+    script(src='https://code.jquery.com/jquery.js')
+    script(src='js/bootstrap.min.js')
+    style
+      html, body{
+      width: 100% !important;
+      height: 100% !important;
+      padding: 0;
+      margin: 0;
+      }
   body
     .container
       block content
