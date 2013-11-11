@@ -36,10 +36,10 @@ exports.near = function(req, res) {
   });
 };
 
-// Action to create a new business
+// Action to create a new business via API
 exports.create = function(req, res) {
 
-  var q = req.body.business || {};
+  var q = req.body.business || req.body || {};
   Business.create({
     name: q.name,
     type: q.type,
@@ -60,5 +60,10 @@ exports.create = function(req, res) {
     res.json(business);
   });
 };
+
+// Action to get the register page for a business
+exports.register = function(req, res) {
+  res.render('info', {title: 'Register a New Business'});
+}
 
 

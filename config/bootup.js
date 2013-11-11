@@ -16,7 +16,6 @@ module.exports = function(app) {
     app.use(express.logger('dev'));
     app.use(express.bodyParser());
     app.use(express.methodOverride());
-    app.use(requireAppToken);
     app.use(app.router);
     app.use(express.static(__dirname + '/../public'));
   });
