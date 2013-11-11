@@ -70,7 +70,11 @@ block content
         },
         success: function(data) {
           console.log(data);
-          alert(data);
+          alert('Successfully created business "' + data.name + '"!');
+        },
+        error: function(data) {
+          console.log(data);
+          alert('Error: Business creation failed.');
         }
       });
     }
@@ -279,5 +283,5 @@ block content
           br
           textarea.specials.non-required(name='specials')
         .footer
-          input.button(type='submit', name='submit', value='Register', onclick='registerUser()')
+          input.button(type='submit', name='submit', value='Register')
           input.button(type='button', name='cancel', value='Cancel', style='margin-left: 15px;', onclick='top.location.href=\'login.php\';')
