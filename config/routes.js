@@ -17,6 +17,7 @@ module.exports = function(app) {
   app.get('/business', requireAppToken, requireUser, business.find);
   app.post('/user/register', requireAppToken, user.register);
   app.post('/user/favorites', requireAppToken, requireUser, user.addFavorite);
+  app.get('/user/favorites', requireAppToken, requireUser, user.favorites);
   app.get('/user/login', requireAppToken, user.login);
   app.post('/business/create', business.create);
 };

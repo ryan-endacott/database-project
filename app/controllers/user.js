@@ -37,6 +37,14 @@ exports.login = function(req, res) {
 };
 
 
+exports.favorites = function(req, res) {
+  req.user.populate('favorites', function(err, user) {
+    if (err) return badRequest(err, res);
+    res.json(user.favorites);
+  });
+};
+
+
 exports.addFavorite = function(req, res) {
   Business.findById(req.body.businessId, function(err, business) {
     if (err) return badRequest(err, res);
@@ -48,7 +56,7 @@ exports.addFavorite = function(req, res) {
       res.json(business);
     });
   });
-}
+};
 
 
 
