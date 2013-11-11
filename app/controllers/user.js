@@ -1,5 +1,6 @@
 var db = require('../db'),
     User = db.User,
+    Business = db.Business,
     errors = require('../errors'),
     badRequest = errors.badRequestError,
     unauthorizedError = errors.unauthorizedError;
@@ -34,6 +35,20 @@ exports.login = function(req, res) {
     });
   });
 };
+
+
+exports.addFavorite = function(req, res) {
+  Business.findById(req.body.businessId, function(err, business) {
+    if (err) return badRequest(err, res);
+
+    if (business != null)
+      req.user.favorites.push(business);
+    req.user.save(function(err, user) {
+      if (err) return badRequest(err, res);
+      res.json(business);
+    });
+  });
+}
 
 
 
