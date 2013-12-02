@@ -90,4 +90,15 @@ exports.find = function(req, res) {
   });
 }
 
+exports.addReview = function(req, res) {
+  Business.findById(req.body.businessId, function(err, business) {
+    if (err) return badRequest(err, res);
+    business.reviews.push(req.body.review);
+    business.save(function(err, business) {
+      if (err) return badRequest(err, res);
+      res.json(business);
+    });
+  });
+};
+
 
