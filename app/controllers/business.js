@@ -62,6 +62,9 @@ exports.create = function(req, res) {
     catch(err) { // can fail if we got an error or invalid data
     }
 
+    lon = lon || 0;
+    lat = lat || 0;
+
     Business.create({
       name: q.name,
       type: q.type,
