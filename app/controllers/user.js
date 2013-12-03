@@ -46,6 +46,11 @@ exports.favorites = function(req, res) {
 
 
 exports.addFavorite = function(req, res) {
+
+  // Don't allow duplicate favorites
+  if (req.user.favorites.indexOf(req.body.businessId) !== -1)
+    return badRequest('You cannot favorite a business twice', res);
+
   Business.findById(req.body.businessId, function(err, business) {
     if (err) return badRequest(err, res);
 
