@@ -49,13 +49,32 @@ exports.addFavorite = function(req, res) {
   Business.findById(req.body.businessId, function(err, business) {
     if (err) return badRequest(err, res);
 
-    if (business != null)
-      req.user.favorites.push(business);
+    if (business == null)
+      return badRequest('No business found with that ID', res);
+
+    req.user.favorites.push(business);
     req.user.save(function(err, user) {
       if (err) return badRequest(err, res);
       res.json(business);
     });
   });
+};
+
+
+exports.removeFavorite = function(req, res) {
+
+  var index = req.user.favorites.indexOf(req.body.businessId);
+  if (index == -1)
+    return badRequest('That business wasn\'t favorited', res);
+
+  // Remove the business and save
+  req.user.favorites.splice(index, 1);
+
+  req.user.save(function(err, user) {
+    if (err) return badRequest(err, res);
+    res.json(user);
+  });
+
 };
 
 

@@ -4,6 +4,31 @@ var db = require('../db'),
   badRequest = errors.badRequestError,
   gm = require('googlemaps');
 
+
+function nearBusinesses(lon, lat, maxDistance, type, res) {
+
+  var geojsonLoc = {
+    type: 'Point',
+    coordinates: [lon, lat]
+  };
+
+  type = type || /.*/; // All types if none specified
+
+  // Near example: https://github.com/LearnBoost/mongoose/blob/master/test/model.querying.test.js#L2168
+  Business.find({
+    type: type,
+    loc: {
+      $near: { $geometry: geojsonLoc },
+      $maxDistance: maxDistance // In meters
+    }
+  }, function(err, businesses) {
+    if (err) return badRequest(err, res);
+
+    res.json(businesses);
+  });
+
+}
+
 // Action to get all businesses of a certain type
 exports.all = function(req, res) {
 
@@ -17,24 +42,7 @@ exports.all = function(req, res) {
 
 // Action to get all businesses of a certain type near given location
 exports.near = function(req, res) {
-  var geojsonLoc = {
-    type: 'Point',
-    coordinates: [req.query.long, req.query.lat]
-  };
-
-  var type = req.query.type || /.*/; // All types if none specified
-  // Near example: https://github.com/LearnBoost/mongoose/blob/master/test/model.querying.test.js#L2168
-  Business.find({
-    type: type,
-    loc: {
-      $near: { $geometry: geojsonLoc },
-      $maxDistance: req.query.maxDistance // In meters
-    }
-  }, function(err, businesses) {
-    if (err) return badRequest(err, res);
-
-    res.json(businesses);
-  });
+  return nearBusinesses(req.query.long, req.query.lat, req.query.maxDistance, req.query.type, res)
 };
 
 // Action to create a new business via API
@@ -99,6 +107,26 @@ exports.addReview = function(req, res) {
       res.json(business);
     });
   });
+};
+
+exports.searchByAddress = function(req, res) {
+
+  // Get coordinates of address from googlemaps
+  gm.geocode(req.query.address, function(err, data) {
+
+    var lon, lat;
+    try {
+      var loc = data.results[0].geometry.location;
+      lon = loc.lng || 0;
+      lat = loc.lat || 0;
+    }
+    catch(err) { // can fail if we got an error or invalid data
+      return badRequest('Failed to get lat/long from Google Geocode API', res);
+    }
+
+    return nearBusinesses(lon, lat, req.query.maxDistance, req.query.type, res);
+  });
+
 };
 
 
